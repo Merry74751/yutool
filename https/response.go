@@ -1,4 +1,4 @@
-package httpstatus
+package https
 
 import (
 	"encoding/json"

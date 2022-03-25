@@ -10,3 +10,7 @@ func IsNil(v any) bool {
 		return reflect.ValueOf(v).IsZero()
 	}
 }
+
+func IsNotNil(v any) bool {
+	return !IsNil(v)
+}

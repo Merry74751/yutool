@@ -1,4 +1,4 @@
-package string
+package str
 
 import (
 	"github.com/Merry74751/yutool/convert"
