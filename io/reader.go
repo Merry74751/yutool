@@ -2,8 +2,7 @@ package io
 
 import (
 	"bufio"
-	"github.com/Merry74751/yutool/str"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -25,13 +24,9 @@ func ReadFile(filename string) rw {
 }
 
 func (i rw) ReadAll() string {
-	buffer := str.NewBuffer()
-	for {
-		s, err := i.reader.ReadString('\n')
-		buffer.Append(s)
-		if err == io.EOF {
-			break
-		}
+	bytes, err := ioutil.ReadAll(i.reader)
+	if err != nil {
+		log.Printf("readfile error: %s", err)
 	}
-	return buffer.String()
+	return string(bytes)
 }

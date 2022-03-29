@@ -100,6 +100,14 @@ func GetStructNumField(v any) int {
 	return -1
 }
 
+func GetStructFieldByName(v any, field string) reflect.Value {
+	if IsStruct(v) {
+		value := Value(v)
+		return value.FieldByName(field)
+	}
+	return reflect.Value{}
+}
+
 func GetStructFieldNames(v any) []string {
 	if IsStruct(v) {
 		t := Type(v)
@@ -109,6 +117,23 @@ func GetStructFieldNames(v any) []string {
 			names[i] = t.Field(i).Name
 		}
 		return names
+	}
+	return nil
+}
+
+func GetStructFieldTag(v any, field, key string) string {
+	if IsStruct(v) {
+		if fields, b := reflect.TypeOf(v).FieldByName(field); b {
+			fields.Tag.Get(key)
+		}
+	}
+	return ""
+}
+
+func GetSliceType(v any) reflect.Type {
+	if RealKind(v) == reflect.Slice {
+		value := Value(v)
+		return value.Type().Elem()
 	}
 	return nil
 }
