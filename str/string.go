@@ -68,3 +68,15 @@ func Format(str string, params ...any) string {
 	}
 	return str
 }
+
+func Sub(str string, startIndex, endIndex int) string {
+	lens := len(str)
+	if startIndex > lens || endIndex > lens {
+		return ""
+	}
+	if endIndex == -1 {
+		endIndex = lens
+	}
+	bytes := str[startIndex:endIndex]
+	return bytes
+}
