@@ -5,11 +5,12 @@ import (
 	"reflect"
 )
 
-// Kind 获取结构体类型
+// Kind 获取指定值的类型的分类
 func Kind(v any) reflect.Kind {
 	return reflect.TypeOf(v).Kind()
 }
 
+// RealKind 获取指针的类型的分类
 func RealKind(v any) reflect.Kind {
 	kind := Kind(v)
 	if kind == reflect.Ptr {
@@ -18,6 +19,7 @@ func RealKind(v any) reflect.Kind {
 	return kind
 }
 
+// Type 获取指定值的类型
 func Type(v any) reflect.Type {
 	if Kind(v) == reflect.Ptr {
 		return reflect.TypeOf(v).Elem()
@@ -25,7 +27,7 @@ func Type(v any) reflect.Type {
 	return reflect.TypeOf(v)
 }
 
-// Value 获取结构体Value
+// Value 获取指定值的反射值
 func Value(v any) reflect.Value {
 	if Kind(v) == reflect.Ptr {
 		return reflect.ValueOf(v).Elem()
@@ -42,6 +44,7 @@ func GetField(v any, fieldName string) reflect.Value {
 	return reflect.Value{}
 }
 
+// GetFieldByIndex 获取指定值的指定索引的Field
 func GetFieldByIndex(v any, index int) reflect.Value {
 	if IsStruct(v) {
 		l := Value(v).NumField()
@@ -56,6 +59,7 @@ func GetFieldByIndex(v any, index int) reflect.Value {
 	return reflect.Value{}
 }
 
+// IsStruct 判断指定值是否是结构体类型
 func IsStruct(v any) bool {
 	if Kind(v) == reflect.Struct {
 		return true
@@ -68,7 +72,8 @@ func IsStruct(v any) bool {
 	return false
 }
 
-func GetStructFields(v any) []reflect.Value {
+// Fields 获取结构体的所有Field
+func Fields(v any) []reflect.Value {
 	if IsStruct(v) {
 		l := GetStructNumField(v)
 		values := make([]reflect.Value, l)
@@ -80,8 +85,9 @@ func GetStructFields(v any) []reflect.Value {
 	return nil
 }
 
+// GetStructFieldKinds 获取结构体的所有Field的Kind
 func GetStructFieldKinds(v any) []reflect.Kind {
-	fields := GetStructFields(v)
+	fields := Fields(v)
 	if fields != nil {
 		kinds := make([]reflect.Kind, len(fields))
 		for i, field := range fields {
@@ -93,6 +99,7 @@ func GetStructFieldKinds(v any) []reflect.Kind {
 	return nil
 }
 
+// GetStructNumField 获取结构体的字段数量
 func GetStructNumField(v any) int {
 	if IsStruct(v) {
 		return Value(v).NumField()
@@ -100,6 +107,7 @@ func GetStructNumField(v any) int {
 	return -1
 }
 
+// GetStructFieldByName 根据结构体的字段名获取Field
 func GetStructFieldByName(v any, field string) reflect.Value {
 	if IsStruct(v) {
 		value := Value(v)
@@ -108,6 +116,7 @@ func GetStructFieldByName(v any, field string) reflect.Value {
 	return reflect.Value{}
 }
 
+// GetStructFieldNames 获取结构体的所有字段名
 func GetStructFieldNames(v any) []string {
 	if IsStruct(v) {
 		t := Type(v)
@@ -121,6 +130,7 @@ func GetStructFieldNames(v any) []string {
 	return nil
 }
 
+// GetStructFieldTag 获取结构的指定字段的标签
 func GetStructFieldTag(v any, field, key string) string {
 	if IsStruct(v) {
 		if fields, b := reflect.TypeOf(v).FieldByName(field); b {
@@ -130,10 +140,22 @@ func GetStructFieldTag(v any, field, key string) string {
 	return ""
 }
 
+// GetSliceType 获取切片的类型
 func GetSliceType(v any) reflect.Type {
 	if RealKind(v) == reflect.Slice {
 		value := Value(v)
 		return value.Type().Elem()
 	}
 	return nil
+}
+
+func StructFields(v any) []reflect.StructField {
+	typ := Type(v)
+	numField := typ.NumField()
+	fields := make([]reflect.StructField, numField)
+	for i := 0; i < numField; i++ {
+		structField := typ.Field(i)
+		fields[i] = structField
+	}
+	return fields
 }

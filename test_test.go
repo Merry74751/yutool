@@ -1,12 +1,14 @@
 package yutool
 
 import (
-	str2 "github.com/Merry74751/yutool/str"
+	"reflect"
 	"testing"
 )
 
 func TestName(t *testing.T) {
-	str := "abcdef"
-	sub := str2.Sub(str, 2, -1)
-	t.Log(sub)
+	u := User{}
+	t.Log(reflect.TypeOf(u).Kind())
+}
+
+type User struct {
 }
