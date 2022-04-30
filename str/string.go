@@ -2,7 +2,7 @@ package str
 
 import (
 	"fmt"
-	Any "github.com/Merry74751/yutool/any"
+	"github.com/Merry74751/yutool/anyutil"
 	"github.com/Merry74751/yutool/convert"
 	"log"
 	"strconv"
@@ -25,7 +25,7 @@ func ColorText(color int, str string) string {
 }
 
 func IsEmpty(str string) bool {
-	return str == "" || Any.IsNil(str)
+	return str == "" || anyutil.IsNil(str)
 }
 
 func IsNotEmpty(str string) bool {

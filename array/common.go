@@ -1,9 +1,9 @@
 package array
 
-import any2 "github.com/Merry74751/yutool/any"
+import "github.com/Merry74751/yutool/anyutil"
 
 func IsEmpty(arr []any) bool {
-	return len(arr) == 0 || any2.IsNil(arr)
+	return len(arr) == 0 || anyutil.IsNil(arr)
 }
 
 func DoFilter(arr []Filter) []any {

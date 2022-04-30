@@ -1,7 +1,7 @@
 package array
 
 import (
-	any2 "github.com/Merry74751/yutool/any"
+	"github.com/Merry74751/yutool/anyutil"
 	"log"
 )
 
@@ -28,9 +28,9 @@ func isExist[T any](array []T, value T) (bool, int) {
 		log.Printf("array: %v is nil", array)
 		return false, -1
 	}
-	v1 := any2.Value(value)
+	v1 := anyutil.Value(value)
 	for index, item := range array {
-		v2 := any2.Value(item)
+		v2 := anyutil.Value(item)
 		if v1 == v2 {
 			return true, index
 		}
