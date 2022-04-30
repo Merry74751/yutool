@@ -1,4 +1,4 @@
-package any
+package anyutil
 
 import (
 	"log"
@@ -57,19 +57,6 @@ func GetFieldByIndex(v any, index int) reflect.Value {
 	}
 	log.Printf("%v is not struct", v)
 	return reflect.Value{}
-}
-
-// IsStruct 判断指定值是否是结构体类型
-func IsStruct(v any) bool {
-	if Kind(v) == reflect.Struct {
-		return true
-	} else if Kind(v) == reflect.Ptr {
-		kind := reflect.TypeOf(v).Elem().Kind()
-		if kind == reflect.Struct {
-			return true
-		}
-	}
-	return false
 }
 
 // Fields 获取结构体的所有Field
