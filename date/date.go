@@ -37,10 +37,6 @@ func GetDayOfMonth() string {
 	return Now().Format("02")
 }
 
-func GetDay() string {
-	return Now().Format("2006-01-02")
-}
-
 func Parse(format, value string) time.Time {
 	t, err := time.Parse(format, value)
 	if err != nil {

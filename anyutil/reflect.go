@@ -146,3 +146,53 @@ func StructFields(v any) []reflect.StructField {
 	}
 	return fields
 }
+
+func Methods(v any) []reflect.Value {
+	value := Value(v)
+	numMethod := value.NumMethod()
+	methods := make([]reflect.Value, numMethod)
+	for i := 0; i < numMethod; i++ {
+		method := value.Method(i)
+		methods[i] = method
+	}
+	return methods
+}
+
+func MethodByName(v any, methodName string) reflect.Value {
+	value := Value(v)
+	method := value.MethodByName(methodName)
+	if !method.IsValid() {
+		log.Panicf("%T dose not have method: %s", v, method)
+	}
+	return method
+}
+
+func InvokeMethod(v any, methodName string, param ...any) []any {
+	method := MethodByName(v, methodName)
+	length := len(param)
+
+	if length == 0 {
+		result := method.Call(nil)
+		return convertResult(result)
+	}
+
+	values := make([]reflect.Value, length)
+	for index, item := range param {
+		values[index] = reflect.ValueOf(item)
+	}
+
+	result := method.Call(values)
+	return convertResult(result)
+}
+
+func convertResult(result []reflect.Value) []any {
+	length := len(result)
+	if length == 0 {
+		return []any{}
+	}
+	values := make([]any, length)
+	for index, item := range result {
+		values[index] = item.Interface()
+	}
+	return values
+}

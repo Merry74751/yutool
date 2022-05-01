@@ -69,7 +69,7 @@ func Format(str string, params ...any) string {
 	return str
 }
 
-func Sub(str string, startIndex, endIndex int) string {
+func SubString(str string, startIndex, endIndex int) string {
 	lens := len(str)
 	if startIndex > lens || endIndex > lens {
 		return ""
@@ -79,4 +79,32 @@ func Sub(str string, startIndex, endIndex int) string {
 	}
 	bytes := str[startIndex:endIndex]
 	return bytes
+}
+
+// ConvertUnderline 将字符串转为下划线形式.
+// eg: Input HelloWorld return hello_world
+func ConvertUnderline(str string) string {
+	if IsEmpty(str) {
+		return ""
+	}
+
+	bytes := []byte(str)
+	builder := strings.Builder{}
+
+	head := bytes[0]
+	if head >= 65 && head <= 90 {
+		head = head + 32
+	}
+	builder.WriteByte(head)
+
+	for i := 1; i < len(bytes); i++ {
+		b := bytes[i]
+		if 65 <= b && b <= 90 {
+			builder.WriteByte(95)
+			b = b + 32
+		}
+		builder.WriteByte(b)
+	}
+
+	return builder.String()
 }

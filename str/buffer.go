@@ -10,11 +10,11 @@ type strBuffer struct {
 	strings.Builder
 }
 
-func NewBuffer() *strBuffer {
-	return new(strBuffer)
+func NewBuffer() strBuffer {
+	return *new(strBuffer)
 }
 
-func (buffer *strBuffer) Append(value any) *strBuffer {
+func (buffer strBuffer) Append(value any) strBuffer {
 	str := convert.ToString(value)
 	_, err := buffer.WriteString(str)
 	if err != nil {
@@ -23,10 +23,10 @@ func (buffer *strBuffer) Append(value any) *strBuffer {
 	return buffer
 }
 
-func (buffer *strBuffer) ToString() string {
+func (buffer strBuffer) ToString() string {
 	return buffer.String()
 }
 
-func (buffer *strBuffer) ToBytes() []byte {
+func (buffer strBuffer) ToBytes() []byte {
 	return []byte(buffer.String())
 }
