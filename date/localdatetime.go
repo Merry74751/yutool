@@ -1,3 +1,5 @@
+package date
+
 import (
 	"database/sql/driver"
 	"time"
