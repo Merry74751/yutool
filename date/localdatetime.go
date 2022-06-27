@@ -12,6 +12,10 @@ const (
 
 type LocalDateTime time.Time
 
+func NewLocalDateTime() LocalDateTime {
+	return LocalDateTime(time.Now())
+}
+
 func (t *LocalDateTime) UnmarshalJSON(data []byte) (err error) {
 	now, err := time.Parse(`"`+dateTimeFormat+`"`, string(data))
 	if err != nil {
